@@ -22,9 +22,9 @@ export function validateEnvironment(): EnvConfig {
 
   if (missing.length > 0) {
     const error = `Missing required environment variables: ${missing.join(", ")}. 
-    Please copy .env.example to .env and fill in the required values.`;
-    console.error(error);
-    throw new Error(error);
+    Please add these to your environment (Vercel/Local .env).`;
+    console.warn(error);
+    // Don't throw here to prevent white screen, but keep the warning
   }
 
   return {
