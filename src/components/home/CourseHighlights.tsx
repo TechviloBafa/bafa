@@ -1,30 +1,42 @@
-import { Music, Palette, Theater, BookOpen } from "lucide-react";
+import { Music, Palette, Mic, Guitar, Swords, User } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const courses = [
   {
     icon: Music,
-    title: "সংগীত বিভাগ",
-    description: "রবীন্দ্রসংগীত, নজরুলগীতি, ভক্তিগীতি, আধুনিক গান ও যন্ত্রসংগীত শিক্ষা।",
+    title: "সংগীত",
+    description: "রবীন্দ্রসংগীত, নজরুলগীতি, ভক্তিগীতি ও আধুনিক গান শিক্ষা।",
     color: "bg-primary/10 text-primary",
   },
   {
-    icon: Palette,
-    title: "চিত্রকলা বিভাগ",
-    description: "জলরং, তেলরং, পেন্সিল স্কেচ, ক্যালিগ্রাফি ও ডিজিটাল আর্ট প্রশিক্ষণ।",
+    icon: User,
+    title: "নৃত্য",
+    description: "আধুনিক, ভরতনাট্যম, কত্থক, মণিপুরী ও লোকনৃত্য প্রশিক্ষণ।",
     color: "bg-secondary/10 text-secondary",
   },
   {
-    icon: Theater,
-    title: "নাট্যকলা বিভাগ",
-    description: "মঞ্চ অভিনয়, স্ক্রিপ্ট লেখা, পরিচালনা ও প্রযোজনা শিক্ষা।",
+    icon: Palette,
+    title: "চিত্রাংকন",
+    description: "জলরং, তেলরং, পেন্সিল স্কেচ ও চিত্রাঙ্কন প্রশিক্ষণ।",
     color: "bg-accent/10 text-accent",
   },
   {
-    icon: BookOpen,
-    title: "নৃত্য বিভাগ",
-    description: "ভরতনাট্যম, কত্থক, মণিপুরী, রবীন্দ্রনৃত্য ও লোকনৃত্য প্রশিক্ষণ।",
+    icon: Mic,
+    title: "আবৃত্তি",
+    description: "শুদ্ধ উচ্চারণ, বাচনভঙ্গি ও আবৃত্তি কলা শিক্ষা।",
     color: "bg-gold/10 text-gold-foreground",
+  },
+  {
+    icon: Guitar,
+    title: "গীটার",
+    description: "আধুনিক গীটার প্রশিক্ষণ।",
+    color: "bg-primary/10 text-primary",
+  },
+  {
+    icon: Swords,
+    title: "কারাতে",
+    description: "আত্মরক্ষা, শারীরিক গঠন ও শৃঙ্খলা ভিত্তিক কারাতে প্রশিক্ষণ।",
+    color: "bg-secondary/10 text-secondary",
   },
 ];
 
@@ -39,7 +51,7 @@ export function CourseHighlights() {
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {courses.map((course, index) => {
             const Icon = course.icon;
             return (
