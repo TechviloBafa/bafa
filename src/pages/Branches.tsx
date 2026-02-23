@@ -28,6 +28,7 @@ interface Branch {
   image_url: string | null;
   description: string | null;
   facilities: string[] | null;
+  class_time: string | null;
 }
 
 export default function Branches() {
@@ -143,6 +144,12 @@ export default function Branches() {
                               <Phone className="h-4 w-4 shrink-0" />
                               <span>{branch.phone}</span>
                             </div>
+                            {branch.class_time && (
+                              <div className="flex items-center gap-2 text-primary font-medium">
+                                <Clock className="h-4 w-4 shrink-0" />
+                                <span>{branch.class_time}</span>
+                              </div>
+                            )}
                           </div>
 
                           <Button
@@ -226,6 +233,12 @@ export default function Branches() {
                       <Phone className="h-4 w-4 text-primary" />
                       <span>{selectedBranch.phone}</span>
                     </div>
+                    {selectedBranch.class_time && (
+                      <div className="flex items-center gap-3 text-sm font-medium text-primary">
+                        <Clock className="h-4 w-4" />
+                        <span>ক্লাস টাইম: {selectedBranch.class_time}</span>
+                      </div>
+                    )}
                     <div className="flex items-center gap-3 text-sm">
                       <Mail className="h-4 w-4 text-primary" />
                       <span>{selectedBranch.email}</span>

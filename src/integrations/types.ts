@@ -104,6 +104,7 @@ export type Database = {
       branches: {
         Row: {
           address: string
+          branch_name: string
           class_time: string | null
           created_at: string
           description: string | null
@@ -113,7 +114,6 @@ export type Database = {
           id: string
           image_url: string | null
           is_active: boolean | null
-          name: string
           phone: string
           students: number | null
           teachers: number | null
@@ -121,6 +121,7 @@ export type Database = {
         }
         Insert: {
           address: string
+          branch_name: string
           class_time?: string | null
           created_at?: string
           description?: string | null
@@ -130,7 +131,6 @@ export type Database = {
           id?: string
           image_url?: string | null
           is_active?: boolean | null
-          name: string
           phone: string
           students?: number | null
           teachers?: number | null
@@ -138,6 +138,7 @@ export type Database = {
         }
         Update: {
           address?: string
+          branch_name?: string
           class_time?: string | null
           created_at?: string
           description?: string | null
@@ -147,7 +148,6 @@ export type Database = {
           id?: string
           image_url?: string | null
           is_active?: boolean | null
-          name?: string
           phone?: string
           students?: number | null
           teachers?: number | null
