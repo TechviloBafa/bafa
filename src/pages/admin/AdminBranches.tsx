@@ -50,6 +50,7 @@ interface Branch {
   image_url: string | null;
   description: string | null;
   facilities: string[] | null;
+  class_time: string | null;
   is_active: boolean | null;
   created_at: string;
   updated_at: string;
@@ -66,6 +67,7 @@ interface BranchFormData {
   image_url: string;
   description: string;
   facilities: string;
+  class_time: string;
   is_active: boolean;
 }
 
@@ -80,6 +82,7 @@ const initialFormData: BranchFormData = {
   image_url: "",
   description: "",
   facilities: "",
+  class_time: "",
   is_active: true,
 };
 
@@ -128,6 +131,7 @@ export default function AdminBranches() {
         image_url: data.image_url || null,
         description: data.description || null,
         facilities: data.facilities ? data.facilities.split(",").map(f => f.trim()).filter(Boolean) : [],
+        class_time: data.class_time || null,
         is_active: data.is_active,
       };
 
@@ -163,7 +167,7 @@ export default function AdminBranches() {
       console.log("AdminBranches: Attempting to update branch:", id, data);
 
       const payload = {
-        name: data.branch_name,
+        branch_name: data.branch_name,
         address: data.address,
         phone: data.phone,
         email: data.email || null,
@@ -173,6 +177,7 @@ export default function AdminBranches() {
         image_url: data.image_url || null,
         description: data.description || null,
         facilities: data.facilities ? data.facilities.split(",").map(f => f.trim()).filter(Boolean) : [],
+        class_time: data.class_time || null,
         is_active: data.is_active,
       };
 
@@ -242,6 +247,7 @@ export default function AdminBranches() {
       image_url: branch.image_url || "",
       description: branch.description || "",
       facilities: branch.facilities?.join(", ") || "",
+      class_time: branch.class_time || "",
       is_active: branch.is_active ?? true,
     });
     setIsDialogOpen(true);
@@ -490,6 +496,16 @@ export default function AdminBranches() {
                 value={formData.facilities}
                 onChange={(e) => setFormData({ ...formData, facilities: e.target.value })}
                 placeholder="সংগীত রুম, নৃত্য হল, লাইব্রেরি"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="class_time">ক্লাস টাইম (যেমন: শুক্র ও শনি: বিকাল ৩টা - সন্ধ্যা ৬টা)</Label>
+              <Input
+                id="class_time"
+                value={formData.class_time}
+                onChange={(e) => setFormData({ ...formData, class_time: e.target.value })}
+                placeholder="ক্লাস টাইম লিখুন..."
               />
             </div>
 

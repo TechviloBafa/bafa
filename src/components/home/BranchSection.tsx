@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { MapPin, Phone, Building2, ArrowRight } from "lucide-react";
+import { MapPin, Phone, Building2, ArrowRight, Clock } from "lucide-react";
 import { motion } from "framer-motion";
 import { supabase } from "@/integrations/client";
 
@@ -13,6 +13,7 @@ interface Branch {
     branch_name: string;
     address: string;
     phone: string;
+    class_time: string | null;
 }
 
 export function BranchSection() {
@@ -21,7 +22,7 @@ export function BranchSection() {
         queryFn: async () => {
             const { data, error } = await supabase
                 .from("branches" as any)
-                .select("id, branch_name, address, phone")
+                .select("id, branch_name, address, phone, class_time")
                 .eq("is_active", true)
                 .order("branch_name")
                 .limit(8);
@@ -92,6 +93,12 @@ export function BranchSection() {
                                                 <Phone className="h-4 w-4 shrink-0 text-primary/60" />
                                                 <span>{branch.phone}</span>
                                             </div>
+                                            {branch.class_time && (
+                                                <div className="flex items-center gap-2 text-primary font-medium">
+                                                    <Clock className="h-4 w-4 shrink-0" />
+                                                    <span>{branch.class_time}</span>
+                                                </div>
+                                            )}
                                         </div>
 
                                         <Link to="/branches" className="block pt-2">
