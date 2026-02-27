@@ -115,8 +115,8 @@ export function HeroSection() {
                   ভর্তি আবেদন করুন
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="bg-white/90 border-2 border-white text-black hover:bg-white font-semibold cursor-pointer">
-                <Link to="/about/administration">
+              <Button asChild size="lg" variant="outline" className="bg-white/90 border-2 border-white text-black hover:!bg-primary hover:!text-white hover:!border-primary font-semibold cursor-pointer transition-colors">
+                <Link to="/about/principal-message">
                   আরও জানুন
                 </Link>
               </Button>
