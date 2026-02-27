@@ -6,33 +6,28 @@ import { Music, Palette, Theater, BookOpen, Clock } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/client";
 
-const departments = [
-  { id: "music", name: "সংগীত বিভাগ", icon: Music },
-  { id: "art", name: "চিত্রকলা বিভাগ", icon: Palette },
-  { id: "dance", name: "নৃত্য বিভাগ", icon: BookOpen },
-  { id: "drama", name: "নাট্যকলা বিভাগ", icon: Theater },
-];
+import { COURSES } from "@/constants/courses";
 
-interface ClassRoutine {
+interface ClassRoutineData {
   id: string;
   department: string;
   day: string;
-  morning_time: string;
-  morning_class: string;
-  afternoon_time: string;
-  afternoon_class: string;
+  morning_time: string | null;
+  morning_class: string | null;
+  afternoon_time: string | null;
+  afternoon_class: string | null;
 }
 
 export default function ClassRoutine() {
   const { data: routines, isLoading } = useQuery({
     queryKey: ["public-class-routines"],
     queryFn: async () => {
-      const { data, error } = await (supabase
-        .from("daily_class_routines" as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+      const { data, error } = await supabase
+        .from("daily_class_routines")
         .select("*")
-        .order("created_at"));
+        .order("created_at");
       if (error) throw error;
-      return data as ClassRoutine[];
+      return data as ClassRoutineData[];
     },
   });
 
@@ -43,7 +38,10 @@ export default function ClassRoutine() {
   if (isLoading) {
     return (
       <Layout>
-        <div className="py-20 text-center">লোড হচ্ছে...</div>
+        <div className="py-20 text-center flex flex-col items-center gap-4">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          রুটিন লোড হচ্ছে...
+        </div>
       </Layout>
     );
   }
@@ -66,39 +64,42 @@ export default function ClassRoutine() {
       {/* Routine Tabs */}
       <section className="py-16">
         <div className="container">
-          <Tabs defaultValue="music" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 mb-8">
-              {departments.map((dept) => {
+          <Tabs defaultValue={COURSES[0].id} className="w-full">
+            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 lg:grid-cols-7 mb-8 h-auto gap-2 bg-transparent p-0">
+              {COURSES.map((dept) => {
                 const Icon = dept.icon;
                 return (
-                  <TabsTrigger key={dept.id} value={dept.id} className="flex items-center gap-2">
+                  <TabsTrigger
+                    key={dept.id}
+                    value={dept.id}
+                    className="flex items-center gap-2 py-3 px-4 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border rounded-lg transition-all"
+                  >
                     <Icon className="h-4 w-4" />
-                    <span className="hidden sm:inline">{dept.name}</span>
-                    <span className="sm:hidden">{dept.name.split(" ")[0]}</span>
+                    <span>{dept.title}</span>
                   </TabsTrigger>
                 );
               })}
             </TabsList>
 
-            {departments.map((dept) => {
+            {COURSES.map((dept) => {
               const Icon = dept.icon;
               const routine = getDepartmentRoutine(dept.id);
 
               return (
-                <TabsContent key={dept.id} value={dept.id}>
-                  <Card>
-                    <CardHeader className="bg-gradient-to-r from-primary/10 to-secondary/10">
+                <TabsContent key={dept.id} value={dept.id} className="mt-0 focus-visible:outline-none">
+                  <Card className="border-2">
+                    <CardHeader className="bg-gradient-to-r from-primary/5 to-secondary/5 border-b">
                       <CardTitle className="flex items-center gap-2">
                         <Icon className="h-5 w-5 text-primary" />
-                        {dept.name} - সাপ্তাহিক রুটিন
+                        {dept.title} বিভাগ - সাপ্তাহিক রুটিন
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
                       <div className="overflow-x-auto">
                         <Table>
                           <TableHeader>
-                            <TableRow>
-                              <TableHead className="font-bold">দিন</TableHead>
+                            <TableRow className="bg-muted/50 hover:bg-muted/50">
+                              <TableHead className="font-bold w-[120px]">দিন</TableHead>
                               <TableHead className="font-bold">সময় (সকাল)</TableHead>
                               <TableHead className="font-bold">ক্লাস</TableHead>
                               <TableHead className="font-bold">সময় (বিকাল)</TableHead>
@@ -108,18 +109,18 @@ export default function ClassRoutine() {
                           <TableBody>
                             {routine.length > 0 ? (
                               routine.map((row, index) => (
-                                <TableRow key={index} className="hover:bg-muted/50">
+                                <TableRow key={index} className="hover:bg-muted/30 transition-colors">
                                   <TableCell className="font-medium">{row.day}</TableCell>
-                                  <TableCell className="text-primary">{row.morning_time}</TableCell>
-                                  <TableCell>{row.morning_class}</TableCell>
-                                  <TableCell className="text-primary">{row.afternoon_time}</TableCell>
-                                  <TableCell>{row.afternoon_class}</TableCell>
+                                  <TableCell className="text-primary font-semibold">{row.morning_time || "-"}</TableCell>
+                                  <TableCell>{row.morning_class || "-"}</TableCell>
+                                  <TableCell className="text-primary font-semibold">{row.afternoon_time || "-"}</TableCell>
+                                  <TableCell>{row.afternoon_class || "-"}</TableCell>
                                 </TableRow>
                               ))
                             ) : (
                               <TableRow>
-                                <TableCell colSpan={5} className="text-center py-6 text-muted-foreground">
-                                  কোনো রুটিন পাওয়া যায়নি
+                                <TableCell colSpan={5} className="text-center py-12 text-muted-foreground italic">
+                                  এই বিভাগের জন্য কোনো রুটিন পাওয়া যায়নি
                                 </TableCell>
                               </TableRow>
                             )}
@@ -130,14 +131,17 @@ export default function ClassRoutine() {
                   </Card>
 
                   {/* Notes */}
-                  <Card className="mt-6">
+                  <Card className="mt-6 border-dashed bg-muted/20">
                     <CardContent className="pt-6">
-                      <h3 className="font-bold mb-3">বিশেষ নোট:</h3>
-                      <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                        <li>শুক্রবার সাপ্তাহিক ছুটি</li>
-                        <li>বিশেষ অনুষ্ঠানের সময় রুটিন পরিবর্তন হতে পারে</li>
-                        <li>প্র্যাক্টিস রুমে অতিরিক্ত সময় পাওয়া যায় (আগে বুকিং করতে হবে)</li>
-                        <li>পরীক্ষার সময় বিশেষ ক্লাস সিডিউল অনুসরণ করতে হবে</li>
+                      <h3 className="font-bold mb-3 flex items-center gap-2 text-primary">
+                        <BookOpen className="h-4 w-4" />
+                        বিশেষ দ্রষ্টব্য:
+                      </h3>
+                      <ul className="list-disc list-inside space-y-2 text-muted-foreground text-sm">
+                        <li>সাধারণত শুক্রবার সাপ্তাহিক ছুটি থাকে, তবে বিশেষ ক্লাস হতে পারে।</li>
+                        <li>রুটিনের যে কোনো পরিবর্তন নোটিশ বোর্ডে জানানো হবে।</li>
+                        <li>প্র্যাক্টিস রুম ব্যবহারের জন্য সংশ্লিষ্ট বিভাগীয় প্রধানের অনুমতি প্রয়োজন।</li>
+                        <li>ক্লাস শুরুর ৫ মিনিট আগে উপস্থিত থাকার জন্য অনুরোধ করা হলো।</li>
                       </ul>
                     </CardContent>
                   </Card>

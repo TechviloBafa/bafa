@@ -51,6 +51,7 @@ interface Branch {
   description: string | null;
   facilities: string[] | null;
   class_time: string | null;
+  location_name: string | null;
   is_active: boolean | null;
   created_at: string;
   updated_at: string;
@@ -68,6 +69,7 @@ interface BranchFormData {
   description: string;
   facilities: string;
   class_time: string;
+  location_name: string;
   is_active: boolean;
 }
 
@@ -83,6 +85,7 @@ const initialFormData: BranchFormData = {
   description: "",
   facilities: "",
   class_time: "",
+  location_name: "",
   is_active: true,
 };
 
@@ -99,12 +102,12 @@ export default function AdminBranches() {
   const { data: branches, isLoading } = useQuery({
     queryKey: ["admin-branches"],
     queryFn: async () => {
-      const { data, error } = await (supabase
-        .from("branches" as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+      const { data, error } = await supabase
+        .from("branches")
         .select("*")
-        .order("created_at", { ascending: false }));
+        .order("created_at", { ascending: false });
       if (error) throw error;
-      return (data as any) as Branch[];
+      return data as Branch[];
     },
     staleTime: 1000 * 30, // 30 seconds
   });
@@ -132,16 +135,13 @@ export default function AdminBranches() {
         description: data.description || null,
         facilities: data.facilities ? data.facilities.split(",").map(f => f.trim()).filter(Boolean) : [],
         class_time: data.class_time || null,
+        location_name: data.location_name || null,
         is_active: data.is_active,
       };
 
       console.log("AdminBranches: Sending payload to Supabase:", payload);
 
-      const result = await withTimeout(
-        supabase.from("branches" as any).insert([payload]),
-        60000,
-        "শাখা যোগ করতে সময় বেশি লাগছে। আপনার ইন্টারনেট সংযোগ চেক করুন এবং পুনরায় চেষ্টা করুন।"
-      );
+      const result = await supabase.from("branches" as any).insert([payload]);
 
       if (result.error) {
         console.error("AdminBranches: Supabase error details:", result.error);
@@ -153,6 +153,8 @@ export default function AdminBranches() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-branches"] });
+      queryClient.invalidateQueries({ queryKey: ["branches"] });
+      queryClient.invalidateQueries({ queryKey: ["branches-home"] });
       toast.success("শাখা সফলভাবে যোগ করা হয়েছে");
       handleCloseDialog();
     },
@@ -178,17 +180,14 @@ export default function AdminBranches() {
         description: data.description || null,
         facilities: data.facilities ? data.facilities.split(",").map(f => f.trim()).filter(Boolean) : [],
         class_time: data.class_time || null,
+        location_name: data.location_name || null,
         is_active: data.is_active,
       };
 
-      const result = await withTimeout(
-        supabase
-          .from("branches" as any) // eslint-disable-line @typescript-eslint/no-explicit-any
-          .update(payload)
-          .eq("id", id),
-        60000,
-        "শাখা আপডেট করতে সময় বেশি লাগছে। পুনরায় চেষ্টা করুন।"
-      );
+      const result = await supabase
+        .from("branches" as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+        .update(payload)
+        .eq("id", id);
 
       if (result.error) {
         console.error("AdminBranches: Update Supabase error:", result.error);
@@ -198,6 +197,8 @@ export default function AdminBranches() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-branches"] });
+      queryClient.invalidateQueries({ queryKey: ["branches"] });
+      queryClient.invalidateQueries({ queryKey: ["branches-home"] });
       toast.success("শাখা সফলভাবে আপডেট করা হয়েছে");
       handleCloseDialog();
     },
@@ -210,7 +211,8 @@ export default function AdminBranches() {
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
       const result = await withTimeout(
-        supabase.from("branches" as any).delete().eq("id", id),
+        supabase.from("branches")
+          .delete().eq("id", id),
         30000,
         "মুছে ফেলতে সময় বেশি লাগছে।"
       );
@@ -218,6 +220,8 @@ export default function AdminBranches() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-branches"] });
+      queryClient.invalidateQueries({ queryKey: ["branches"] });
+      queryClient.invalidateQueries({ queryKey: ["branches-home"] });
       toast.success("শাখা সফলভাবে মুছে ফেলা হয়েছে");
       setIsDeleteAlertOpen(false);
       setBranchToDelete(null);
@@ -248,6 +252,7 @@ export default function AdminBranches() {
       description: branch.description || "",
       facilities: branch.facilities?.join(", ") || "",
       class_time: branch.class_time || "",
+      location_name: branch.location_name || "",
       is_active: branch.is_active ?? true,
     });
     setIsDialogOpen(true);
@@ -331,6 +336,7 @@ export default function AdminBranches() {
                   <TableHead className="hidden md:table-cell">ঠিকানা</TableHead>
                   <TableHead className="hidden sm:table-cell">ফোন</TableHead>
                   <TableHead className="hidden lg:table-cell">শিক্ষার্থী</TableHead>
+                  <TableHead>এলাকা</TableHead>
                   <TableHead>স্ট্যাটাস</TableHead>
                   <TableHead className="text-right">অ্যাকশন</TableHead>
                 </TableRow>
@@ -351,6 +357,11 @@ export default function AdminBranches() {
                       <TableCell className="hidden md:table-cell">{branch.address}</TableCell>
                       <TableCell className="hidden sm:table-cell">{branch.phone}</TableCell>
                       <TableCell className="hidden lg:table-cell">{branch.students || 0}</TableCell>
+                      <TableCell>
+                        <Badge variant="outline" className="text-muted-foreground font-normal">
+                          {branch.location_name || "N/A"}
+                        </Badge>
+                      </TableCell>
                       <TableCell>
                         <Badge variant={branch.is_active ? "default" : "secondary"}>
                           {branch.is_active ? "সক্রিয়" : "নিষ্ক্রিয়"}
@@ -398,14 +409,26 @@ export default function AdminBranches() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="name">শাখার নাম *</Label>
+                <Label htmlFor="branch_name">শাখার নাম *</Label>
                 <Input
-                  id="name"
+                  id="branch_name"
                   value={formData.branch_name}
                   onChange={(e) => setFormData({ ...formData, branch_name: e.target.value })}
                   required
                 />
               </div>
+              <div className="space-y-2">
+                <Label htmlFor="location_name">ব্রাঞ্চের এলাকা (যেমন: মিরপুর ১৪ ব্রাঞ্চ)</Label>
+                <Input
+                  id="location_name"
+                  value={formData.location_name}
+                  onChange={(e) => setFormData({ ...formData, location_name: e.target.value })}
+                  placeholder="যেমন: মিরপুর ১৪ ব্রাঞ্চ"
+                />
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="phone">ফোন নম্বর *</Label>
                 <Input

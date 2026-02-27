@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, FileText, Users, Eye, Bell, GraduationCap, ClipboardList } from "lucide-react";
+import { Plus, FileText, Users, Eye, Bell, GraduationCap, ClipboardList, Video } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { queryKeys } from "@/constants/queryKeys";
 
@@ -170,6 +170,12 @@ export default function AdminDashboard() {
                 <Link to="/admin/admissions">
                   <Users className="h-5 w-5" />
                   আবেদন পর্যালোচনা করুন
+                </Link>
+              </Button>
+              <Button className="w-full justify-start gap-3" variant="outline" asChild>
+                <Link to="/admin/videos">
+                  <Video className="h-5 w-5" />
+                  ভিডিও গ্যালারি ম্যানেজ করুন
                 </Link>
               </Button>
             </CardContent>

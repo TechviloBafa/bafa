@@ -31,8 +31,11 @@ import {
 import { Plus, Pencil, Trash2, FileText } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { withTimeout } from "@/utils/promiseUtils";
+import { bnToEn } from "@/utils/numberUtils";
 
-const courses = ["সংগীত", "চিত্রকলা", "নৃত্য", "আবৃত্তি", "নাটক"];
+import { COURSES } from "@/constants/courses";
+
+const courses = COURSES.map(course => course.title);
 const examTypes = ["অর্ধবার্ষিক", "বার্ষিক", "সাময়িক"];
 const grades = ["A+", "A", "A-", "B", "C", "D", "F"];
 
@@ -189,10 +192,16 @@ export default function AdminResults() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const normalizedData = {
+      ...formData,
+      student_id: bnToEn(formData.student_id).trim().toUpperCase(),
+      exam_year: bnToEn(formData.exam_year).trim(),
+    };
+
     if (editingResult) {
-      updateMutation.mutate({ id: editingResult.id, data: formData });
+      updateMutation.mutate({ id: editingResult.id, data: normalizedData });
     } else {
-      createMutation.mutate(formData);
+      createMutation.mutate(normalizedData);
     }
   };
 

@@ -1,44 +1,5 @@
-import { Music, Palette, Mic, Guitar, Swords, User } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-const courses = [
-  {
-    icon: Music,
-    title: "সংগীত",
-    description: "রবীন্দ্রসংগীত, নজরুলগীতি, ভক্তিগীতি ও আধুনিক গান শিক্ষা।",
-    color: "bg-primary/10 text-primary",
-  },
-  {
-    icon: User,
-    title: "নৃত্য",
-    description: "আধুনিক, ভরতনাট্যম, কত্থক, মণিপুরী ও লোকনৃত্য প্রশিক্ষণ।",
-    color: "bg-secondary/10 text-secondary",
-  },
-  {
-    icon: Palette,
-    title: "চিত্রাংকন",
-    description: "জলরং, তেলরং, পেন্সিল স্কেচ ও চিত্রাঙ্কন প্রশিক্ষণ।",
-    color: "bg-accent/10 text-accent",
-  },
-  {
-    icon: Mic,
-    title: "আবৃত্তি",
-    description: "শুদ্ধ উচ্চারণ, বাচনভঙ্গি ও আবৃত্তি কলা শিক্ষা।",
-    color: "bg-gold/10 text-gold-foreground",
-  },
-  {
-    icon: Guitar,
-    title: "গীটার",
-    description: "আধুনিক গীটার প্রশিক্ষণ।",
-    color: "bg-primary/10 text-primary",
-  },
-  {
-    icon: Swords,
-    title: "কারাতে",
-    description: "আত্মরক্ষা, শারীরিক গঠন ও শৃঙ্খলা ভিত্তিক কারাতে প্রশিক্ষণ।",
-    color: "bg-secondary/10 text-secondary",
-  },
-];
+import { COURSES } from "@/constants/courses";
 
 export function CourseHighlights() {
   return (
@@ -52,11 +13,11 @@ export function CourseHighlights() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {courses.map((course, index) => {
+          {COURSES.map((course, index) => {
             const Icon = course.icon;
             return (
               <Card
-                key={course.title}
+                key={course.id}
                 className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/30"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >

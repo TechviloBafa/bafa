@@ -160,7 +160,7 @@ export default function AdminRegistration() {
               <Input
                 id="fullName"
                 name="fullName"
-                placeholder="আপনার নাম প্রবেश করুন"
+                placeholder="আপনার নাম লিখুন"
                 value={formData.fullName}
                 onChange={handleChange}
                 disabled={isLoading}
@@ -202,7 +202,7 @@ export default function AdminRegistration() {
                 id="confirmPassword"
                 name="confirmPassword"
                 type="password"
-                placeholder="পাসওয়ার্ড আবার প্রবেশ করুন"
+                placeholder="পাসওয়ার্ড আবার লিখুন"
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 disabled={isLoading}

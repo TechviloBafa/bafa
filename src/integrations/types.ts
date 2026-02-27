@@ -114,6 +114,7 @@ export type Database = {
           id: string
           image_url: string | null
           is_active: boolean | null
+          location_name: string | null
           phone: string
           students: number | null
           teachers: number | null
@@ -131,6 +132,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           is_active?: boolean | null
+          location_name?: string | null
           phone: string
           students?: number | null
           teachers?: number | null
@@ -148,6 +150,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           is_active?: boolean | null
+          location_name?: string | null
           phone?: string
           students?: number | null
           teachers?: number | null
@@ -242,6 +245,42 @@ export type Database = {
         }
         Relationships: []
       }
+      daily_class_routines: {
+        Row: {
+          id: string
+          department: string
+          day: string
+          morning_time: string | null
+          morning_class: string | null
+          afternoon_time: string | null
+          afternoon_class: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          department: string
+          day: string
+          morning_time?: string | null
+          morning_class?: string | null
+          afternoon_time?: string | null
+          afternoon_class?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          department?: string
+          day?: string
+          morning_time?: string | null
+          morning_class?: string | null
+          afternoon_time?: string | null
+          afternoon_class?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         pending_admins: {
           Row: {
@@ -296,6 +335,57 @@ export type Database = {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
+        }
+        Relationships: []
+      }
+      video_gallery: {
+        Row: {
+          id: string
+          title: string
+          youtube_url: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          youtube_url: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          youtube_url?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
+      academic_calendar: {
+        Row: {
+          id: string
+          month: string
+          date: string
+          title: string
+          type: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          month: string
+          date: string
+          title: string
+          type: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          month?: string
+          date?: string
+          title?: string
+          type?: string
+          created_at?: string
+          updated_at?: string
         }
         Relationships: []
       }

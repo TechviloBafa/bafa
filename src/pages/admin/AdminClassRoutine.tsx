@@ -25,22 +25,18 @@ import { useToast } from "@/hooks/use-toast";
 import { Plus, Pencil, Trash2, Loader2, Save } from "lucide-react";
 import { withTimeout } from "@/utils/promiseUtils";
 
-interface ClassRoutine {
+import { COURSES } from "@/constants/courses";
+
+interface ClassRoutineData {
     id: string;
     department: string;
     day: string;
-    morning_time: string;
-    morning_class: string;
-    afternoon_time: string;
-    afternoon_class: string;
+    morning_time: string | null;
+    morning_class: string | null;
+    afternoon_time: string | null;
+    afternoon_class: string | null;
+    created_at: string;
 }
-
-const DEPARTMENTS = [
-    { id: "music", name: "সংগীত" },
-    { id: "art", name: "চিত্রকলা" },
-    { id: "dance", name: "নৃত্য" },
-    { id: "drama", name: "নাট্যকলা" },
-];
 
 const DAYS = ["শনিবার", "রবিবার", "সোমবার", "মঙ্গলবার", "বুধবার", "বৃহস্পতিবার", "শুক্রবার"];
 
@@ -49,18 +45,18 @@ export default function AdminClassRoutine() {
     const queryClient = useQueryClient();
     const [selectedDept, setSelectedDept] = useState("music");
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-    const [editingRoutine, setEditingRoutine] = useState<ClassRoutine | null>(null);
+    const [editingRoutine, setEditingRoutine] = useState<ClassRoutineData | null>(null);
 
     // Fetch Routines
     const { data: routines, isLoading } = useQuery({
         queryKey: ["daily-class-routines"],
         queryFn: async () => {
-            const { data, error } = await (supabase
-                .from("daily_class_routines" as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+            const { data, error } = await supabase
+                .from("daily_class_routines")
                 .select("*")
-                .order("created_at"));
+                .order("created_at");
             if (error) throw error;
-            return (data as any) as ClassRoutine[];
+            return data as ClassRoutineData[];
         },
     });
 
@@ -148,17 +144,17 @@ export default function AdminClassRoutine() {
         <AdminLayout title="ক্লাস রুটিন ব্যবস্থাপনা">
             <div className="space-y-6">
                 <Tabs value={selectedDept} onValueChange={setSelectedDept} className="w-full">
-                    <TabsList className="grid w-full grid-cols-4 mb-8">
-                        {DEPARTMENTS.map(dept => (
-                            <TabsTrigger key={dept.id} value={dept.id}>{dept.name}</TabsTrigger>
+                    <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 lg:grid-cols-7 mb-8 h-auto gap-2">
+                        {COURSES.map(dept => (
+                            <TabsTrigger key={dept.id} value={dept.id} className="py-2">{dept.title}</TabsTrigger>
                         ))}
                     </TabsList>
 
-                    {DEPARTMENTS.map(dept => (
+                    {COURSES.map(dept => (
                         <TabsContent key={dept.id} value={dept.id}>
                             <Card>
                                 <CardHeader className="flex flex-row items-center justify-between">
-                                    <CardTitle>{dept.name} বিভাগের রুটিন</CardTitle>
+                                    <CardTitle>{dept.title} বিভাগের রুটিন</CardTitle>
                                     <Dialog open={isAddDialogOpen} onOpenChange={(open) => {
                                         setIsAddDialogOpen(open);
                                         if (!open) setEditingRoutine(null);

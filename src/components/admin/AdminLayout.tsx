@@ -12,6 +12,7 @@ import {
   Building2,
   GraduationCap,
   Image as ImageIcon,
+  Video,
   Clock,
   Calendar,
   BookOpen,
@@ -32,12 +33,14 @@ const sidebarItems = [
   { icon: Calendar, label: "পরীক্ষার রুটিন", path: "/admin/routine" },
   { icon: BookOpen, label: "ক্লাস রুটিন", path: "/admin/class-routine" },
   { icon: Clock, label: "টিচার্স রেজিস্ট্রেশন", path: "/admin/approvals" },
+  { icon: Calendar, label: "একাডেমিক ক্যালেন্ডার", path: "/admin/calendar" },
   { icon: Bell, label: "নোটিশ ব্যবস্থাপনা", path: "/admin/notices" },
   { icon: FileText, label: "ফলাফল ব্যবস্থাপনা", path: "/admin/results" },
   { icon: Users, label: "ভর্তি আবেদন", path: "/admin/admissions" },
   { icon: Building2, label: "শাখা ব্যবস্থাপনা", path: "/admin/branches" },
-  { icon: GraduationCap, label: "শিক্ষক ব্যবস্থাপনা", path: "/admin/teachers" }, // Added Teacher Management link
+  { icon: GraduationCap, label: "শিক্ষক ব্যবস্থাপনা", path: "/admin/teachers" },
   { icon: ImageIcon, label: "গ্যালারি ব্যবস্থাপনা", path: "/admin/gallery" },
+  { icon: Video, label: "ভিডিও গ্যালারি", path: "/admin/videos" },
 ];
 
 interface AdminLayoutProps {

@@ -11,13 +11,9 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/client";
 import { z } from "zod";
 
-const courses = [
-  "সংগীত (ভোকাল)",
-  "সংগীত (যন্ত্র)",
-  "চিত্রকলা",
-  "নৃত্য",
-  "নাট্যকলা",
-];
+import { COURSES } from "@/constants/courses";
+
+const courses = COURSES.map(c => c.title);
 
 // Validation schema
 const admissionSchema = z.object({

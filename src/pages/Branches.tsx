@@ -12,13 +12,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { MapPin, Phone, Mail, Search, Building2, Users, Clock } from "lucide-react";
+import { MapPin, Phone, Mail, Search, Building2, Users, Clock, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { supabase } from "@/integrations/client";
 
 interface Branch {
   id: string;
   branch_name: string;
+  location_name: string | null;
   address: string;
   phone: string;
   email: string | null;
@@ -46,7 +47,7 @@ export default function Branches() {
       if (error) throw error;
       return (data as any) as Branch[];
     },
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 30, // 30 seconds
   });
 
   const filteredBranches = branches?.filter((branch) =>
@@ -125,29 +126,31 @@ export default function Branches() {
                       transition={{ duration: 0.3, delay: index * 0.02 }}
                     >
                       <Card
-                        className="group cursor-pointer hover:shadow-lg transition-all duration-300 hover:border-primary/30 h-full"
+                        className="group cursor-pointer hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border-none bg-white/80 backdrop-blur-sm shadow-sm h-full rounded-[2.5rem] overflow-hidden ring-1 ring-border/50"
                         onClick={() => setSelectedBranch(branch)}
                       >
-                        <CardContent className="p-4 space-y-3">
-                          <div className="flex items-start justify-between gap-2">
-                            <h3 className="font-semibold text-sm group-hover:text-primary transition-colors line-clamp-2">
+                        <CardContent className="p-8 space-y-6">
+                          <div className="space-y-2 flex flex-col items-center text-center">
+                            {branch.location_name && (
+                              <Badge variant="secondary" className="bg-primary/5 text-primary border-none text-[16px] font-bold px-3 py-1 mb-1">
+                                {branch.location_name}
+                              </Badge>
+                            )}
+                            <h3 className="font-bold text-xl group-hover:text-primary transition-colors line-clamp-2 leading-tight">
                               {branch.branch_name}
                             </h3>
                           </div>
 
-                          <div className="space-y-2 text-sm">
-                            <div className="flex items-start gap-2 text-muted-foreground">
-                              <MapPin className="h-4 w-4 shrink-0 mt-0.5" />
+                          <div className="space-y-3 text-sm text-muted-foreground">
+                            <div className="flex items-start gap-1">
                               <span className="line-clamp-2">{branch.address}</span>
                             </div>
-                            <div className="flex items-center gap-2 text-muted-foreground">
-                              <Phone className="h-4 w-4 shrink-0" />
-                              <span>{branch.phone}</span>
+                            <div className="flex items-center gap-1">
+                              <span>ফোন: {branch.phone}</span>
                             </div>
                             {branch.class_time && (
-                              <div className="flex items-center gap-2 text-primary font-medium">
-                                <Clock className="h-4 w-4 shrink-0" />
-                                <span>{branch.class_time}</span>
+                              <div className="flex items-center gap-1 text-primary font-medium">
+                                <span>ক্লাস টাইম: {branch.class_time}</span>
                               </div>
                             )}
                           </div>
@@ -155,9 +158,10 @@ export default function Branches() {
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="w-full mt-2 group-hover:bg-primary/10"
+                            className="w-full text-primary hover:text-primary hover:bg-primary/5 rounded-2xl group/btn"
                           >
                             বিস্তারিত দেখুন
+                            <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
                           </Button>
                         </CardContent>
                       </Card>
@@ -183,7 +187,14 @@ export default function Branches() {
           {selectedBranch && (
             <>
               <DialogHeader>
-                <DialogTitle className="text-xl">{selectedBranch.branch_name}</DialogTitle>
+                <div className="flex flex-col gap-2">
+                  {selectedBranch.location_name && (
+                    <Badge variant="secondary" className="w-fit text-primary bg-primary/10 border-none">
+                      {selectedBranch.location_name}
+                    </Badge>
+                  )}
+                  <DialogTitle className="text-2xl font-bold">{selectedBranch.branch_name}</DialogTitle>
+                </div>
               </DialogHeader>
 
               <div className="space-y-6">

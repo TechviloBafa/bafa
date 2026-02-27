@@ -99,9 +99,8 @@ export default function Contact() {
                       <div>
                         <h3 className="font-semibold mb-1">অফিস সময়</h3>
                         <p className="text-muted-foreground">
-                          শনিবার - বৃহস্পতিবার<br />
-                          সকাল ৯:০০ - বিকাল ৬:০০<br />
-                          <span className="text-primary">শুক্রবার বন্ধ</span>
+                          শনিবার - শুক্রবার<br />
+                          সকাল ৯:০০ - বিকাল ৬:০০
                         </p>
                       </div>
                     </CardContent>
@@ -164,15 +163,20 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Map Placeholder */}
       <section className="pb-16">
         <div className="container">
-          <Card className="overflow-hidden">
-            <div className="aspect-[21/9] bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
-              <div className="text-center space-y-2">
-                <MapPin className="h-12 w-12 text-muted-foreground/50 mx-auto" />
-                <p className="text-muted-foreground">গুগল ম্যাপ</p>
-              </div>
+          <Card className="overflow-hidden border-none shadow-lg rounded-2xl">
+            <div className="aspect-[21/9] w-full">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27720.540493756158!2d90.34019557543584!3d23.802889100000016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c7007aeb08b7%3A0xebcc7d7e98201586!2zQnVsYnVsIEFjYWRlbXkgQmFmYSBTZXdyYXBhcmEs4Kas4KeB4Kay4Kas4KeB4KayIOCmj-CmleCmvuCmoeCnh-CmruCmvyDgpqzgpr7gpqvgpr4g4Ka24KeH4KaT4Kec4Ka-4Kaq4Ka-4Kec4Ka-IOCmtuCmvuCmluCmvg!5e1!3m2!1sen!2sbd!4v1772230976387!5m2!1sen!2sbd"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={true}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Google Maps"
+              ></iframe>
             </div>
           </Card>
         </div>

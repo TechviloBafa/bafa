@@ -3,7 +3,7 @@ import { GraduationCap, MapPin, Phone, Mail, Facebook, Youtube } from "lucide-re
 
 export function Footer() {
   return (
-    <footer className="bg-foreground text-background">
+    <footer className="bg-[#1a1614] text-white/90 pt-16 pb-8 no-print">
       {/* Main Footer */}
       <div className="container py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -13,7 +13,7 @@ export function Footer() {
               <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white p-0.5 shrink-0 overflow-hidden">
                 <img src="/logo.svg" alt="BFA Logo" className="h-full w-full object-cover" />
               </div>
-              <h3 className="text-lg font-bold leading-tight">বাংলাদেশ বুলবুল ললিতকলা একাডেমি বাফা</h3>
+              <h3 className="text-lg font-bold leading-tight">বাংলাদেশ বুলবুল ললিতকলা একাডেমী বাফা</h3>
             </div>
             <p className="text-sm text-background/70">
               শিল্প ও সংস্কৃতির মাধ্যমে মানবিক মূল্যবোধ ও সৃজনশীলতার বিকাশে নিবেদিত একটি প্রতিষ্ঠান।
@@ -26,11 +26,6 @@ export function Footer() {
               দ্রুত লিংক
             </h4>
             <ul className="space-y-2 text-sm">
-              <li>
-                <Link to="/about/administration" className="hover:text-primary transition-colors">
-                  প্রশাসন
-                </Link>
-              </li>
               <li>
                 <Link to="/admission" className="hover:text-primary transition-colors">
                   ভর্তি আবেদন
@@ -81,9 +76,8 @@ export function Footer() {
               অফিস সময়
             </h4>
             <div className="text-sm space-y-2">
-              <p>শনিবার - বৃহস্পতিবার</p>
+              <p>শনিবার - শুক্রবার</p>
               <p className="text-primary font-medium">সকাল ৯:০০ - বিকাল ৬:০০</p>
-              <p className="text-background/70">শুক্রবার বন্ধ</p>
             </div>
             <div className="flex gap-4 pt-2">
               <a
@@ -93,7 +87,7 @@ export function Footer() {
                 <Facebook className="h-5 w-5" />
               </a>
               <a
-                href="#"
+                href="https://www.youtube.com/@BangladeshBulbulLalitakalaAcad"
                 className="h-10 w-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors"
               >
                 <Youtube className="h-5 w-5" />

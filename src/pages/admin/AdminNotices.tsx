@@ -84,6 +84,8 @@ export default function AdminNotices() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.notices.admin });
+      queryClient.invalidateQueries({ queryKey: ["home-notices"] });
+      queryClient.invalidateQueries({ queryKey: ["notices"] });
       toast({ title: "সফল!", description: "নোটিশ সফলভাবে যোগ করা হয়েছে।" });
       resetForm();
     },
@@ -108,6 +110,8 @@ export default function AdminNotices() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.notices.admin });
+      queryClient.invalidateQueries({ queryKey: ["home-notices"] });
+      queryClient.invalidateQueries({ queryKey: ["notices"] });
       toast({ title: "সফল!", description: "নোটিশ আপডেট করা হয়েছে।" });
       resetForm();
     },
@@ -123,6 +127,8 @@ export default function AdminNotices() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.notices.admin });
+      queryClient.invalidateQueries({ queryKey: ["home-notices"] });
+      queryClient.invalidateQueries({ queryKey: ["notices"] });
       toast({ title: "সফল!", description: "নোটিশ মুছে ফেলা হয়েছে।" });
     },
     onError: () => {

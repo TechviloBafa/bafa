@@ -17,8 +17,6 @@ const navItems = [
   {
     label: "আমাদের সম্পর্কে",
     children: [
-      { label: "প্রশাসন", path: "/about/administration" },
-      { label: "চেয়ারম্যানের বাণী", path: "/about/chairman-message" },
       { label: "অধ্যক্ষের বাণী", path: "/about/principal-message" },
       { label: "পরিচালনা পর্ষদ", path: "/about/governing-body" },
       { label: "শিক্ষক তথ্য", path: "/about/teachers" },
@@ -70,7 +68,7 @@ export function Navbar() {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 no-print">
       {/* Top Bar */}
       <div className="bg-primary text-primary-foreground py-2">
         <div className="container flex items-center justify-between text-sm">
@@ -92,7 +90,7 @@ export function Navbar() {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <img src="/logo.svg" alt="BFA Logo" className="h-16 w-16 rounded-full object-cover" />
-          <span className="hidden sm:inline font-semibold text-primary">বাংলাদেশ বুলবুল ললিতকলা একাডেমি বাফা</span>
+          <span className="hidden sm:inline font-semibold text-primary">বাংলাদেশ বুলবুল ললিতকলা একাডেমী বাফা</span>
         </Link>
 
         {/* Desktop Navigation */}

@@ -10,6 +10,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Search, FileText, Award, AlertCircle, Loader2 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
+import { bnToEn } from "@/utils/numberUtils";
+
 export default function ExamResults() {
   const [studentId, setStudentId] = useState("");
   const [examYear, setExamYear] = useState("");
@@ -18,11 +20,14 @@ export default function ExamResults() {
   const { data: result, isLoading, isFetched } = useQuery({
     queryKey: ["public-result", studentId, examYear],
     queryFn: async () => {
+      const normalizedStudentId = bnToEn(studentId.trim()).toUpperCase();
+      const normalizedExamYear = bnToEn(examYear.trim());
+
       const { data, error } = await supabase
         .from("results")
         .select("*")
-        .eq("student_id", studentId.toUpperCase())
-        .eq("exam_year", examYear)
+        .ilike("student_id", normalizedStudentId)
+        .eq("exam_year", normalizedExamYear)
         .maybeSingle();
       if (error) throw error;
       return data;
@@ -39,8 +44,8 @@ export default function ExamResults() {
 
   return (
     <Layout>
-      {/* Header */}
-      <section className="hero-gradient py-16">
+      {/* Hero Section - Hidden on Print */}
+      <section className="hero-gradient py-16 no-print">
         <div className="container text-center text-primary-foreground">
           <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-white/10 mb-4">
             <FileText className="h-8 w-8" />
@@ -52,8 +57,8 @@ export default function ExamResults() {
         </div>
       </section>
 
-      {/* Search Form */}
-      <section className="py-12">
+      {/* Search Form - Hidden on Print */}
+      <section className="py-12 no-print">
         <div className="container max-w-xl">
           <Card>
             <CardHeader>
@@ -121,9 +126,19 @@ export default function ExamResults() {
 
       {/* Result Display */}
       {result && (
-        <section className="pb-16">
+        <section className="pb-16 pt-0 md:pt-8">
           <div className="container max-w-3xl">
-            <Card className="border-2 border-secondary/30">
+            {/* Print Only Header */}
+            <div className="hidden print:block text-center mb-8 border-b-2 border-primary pb-6">
+              <div className="flex items-center justify-center gap-4 mb-2">
+                <img src="/logo.png" alt="Logo" className="h-16 w-16" />
+                <h1 className="text-3xl font-bold text-primary">বাংলাদেশ বুলবুল ললিতকলা একাডেমী বাফা</h1>
+              </div>
+              <p className="text-lg text-muted-foreground italic">শিল্প ও সংস্কৃতির মাধ্যমে মানবিক মূল্যবোধ ও সৃজনশীলতার বিকাশে নিবেদিত একটি প্রতিষ্ঠান</p>
+              <div className="mt-4 text-xl font-semibold border-y py-2">পরীক্ষার ফলাফল - {result.exam_year}</div>
+            </div>
+
+            <Card className="border-2 border-secondary/30 print:border-none print:shadow-none">
               <CardHeader className="bg-secondary/10 border-b">
                 <div className="flex items-center justify-between flex-wrap gap-4">
                   <div>
@@ -167,7 +182,7 @@ export default function ExamResults() {
                   )}
                 </div>
 
-                <div className="flex justify-center">
+                <div className="flex justify-center no-print">
                   <Button variant="outline" onClick={() => window.print()}>
                     প্রিন্ট করুন
                   </Button>
