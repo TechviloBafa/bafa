@@ -3,7 +3,7 @@ import { Users, GraduationCap, Award, Calendar } from "lucide-react";
 const stats = [
   {
     icon: Users,
-    value: "১০০০+",
+    value: "৫০০০+",
     label: "বর্তমান শিক্ষার্থী",
   },
   {

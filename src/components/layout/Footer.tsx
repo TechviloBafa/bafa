@@ -87,7 +87,7 @@ export function Footer() {
                 <Facebook className="h-5 w-5" />
               </a>
               <a
-                href="https://www.youtube.com/@BangladeshBulbulLalitakalaAcad"
+                href="https://www.youtube.com/@bafatvbd"
                 className="h-10 w-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors"
               >
                 <Youtube className="h-5 w-5" />

@@ -49,13 +49,6 @@ export default function PrincipalMessage() {
                  
                 </div>
               </div>
-
-              <Card className="bg-muted/50">
-                <CardContent className="p-6">
-                  <p className="font-semibold text-lg">মোঃ রিয়াদ</p>
-                  <p className="text-muted-foreground">অধ্যক্ষ, বুলবুল ললিতকলা একাডেমী</p>
-                </CardContent>
-              </Card>
             </div>
           </div>
         </div>
