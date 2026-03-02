@@ -72,7 +72,7 @@ export function Navbar() {
       {/* Top Bar */}
       <div className="bg-primary text-primary-foreground py-2">
         <div className="container flex items-center justify-between text-sm">
-          <span>📞 +880 1912-888418 | 📧 info@bdbafa.com</span>
+          <span>📞 +880 1912-888418 | 📧 bafamusicschool@gmail.com</span>
           <div className="flex gap-4">
             <Link to="/admin/login" className="hover:underline">
               শিক্ষক লগইন

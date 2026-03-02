@@ -85,7 +85,7 @@ export default function Contact() {
                       <div>
                         <h3 className="font-semibold mb-1">ইমেইল</h3>
                         <p className="text-muted-foreground">
-                          info@bdbafa.com
+                          bafamusicschool@gmail.com 
                         </p>
                       </div>
                     </CardContent>
