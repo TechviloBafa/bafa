@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight, Palette, Music, Theater } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -12,21 +12,18 @@ const slides = [
     title: "আন্তর্জাতিক স্বীকৃতিপ্রাপ্ত সাংস্কৃতিক শিক্ষা প্রতিষ্ঠান",
     subtitle: "বাংলাদেশ বুলবুল ললিতকলা একাডেমী (বাফা) তে স্বাগতম",
     description: "সংগীত, নৃত্য, চিত্রাংকন, আবৃত্তি, গীটার, কারাতে ও তবলা দক্ষতা অর্জন করুন আমাদের অভিজ্ঞ শিক্ষকদের তত্ত্বাবধানে।",
-    icon: Palette,
     image: heroBg1,
   },
   {
     title: "সংগীত শিক্ষা",
     subtitle: "ধ্রুপদী ও আধুনিক সংগীতে প্রশিক্ষণ",
     description: "রবীন্দ্রসংগীত, নজরুলগীতি, ভক্তিগীতি এবং আধুনিক গানের প্রশিক্ষণ নিন।",
-    icon: Music,
     image: heroBg2,
   },
   {
     title: "নৃত্যকলা",
     subtitle: "নৃত্যকলায় পারদর্শী হোন",
     description: "লোকনৃত্য, সৃজনশীল নৃত্য, কত্থক নৃত্য, ভরতনাট্যম উপর বিশেষ প্রশিক্ষণ।",
-    icon: Theater,
     image: heroBg3,
   },
 ];
@@ -44,8 +41,6 @@ export function HeroSection() {
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 
-  const CurrentIcon = slides[currentSlide].icon;
-
   return (
     <section className="relative min-h-[600px] lg:min-h-[700px] overflow-hidden">
       {/* Background Image */}
@@ -59,9 +54,6 @@ export function HeroSection() {
 
       {/* Decorative Elements */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 right-1/4 w-48 h-48 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center animate-float">
-          <CurrentIcon className="h-20 w-20 text-white/70" />
-        </div>
         <div className="absolute top-1/3 right-1/6 w-16 h-16 rounded-full bg-accent/40 animate-pulse" />
         <div className="absolute bottom-1/3 right-1/3 w-12 h-12 rounded-full bg-white/20 animate-float" style={{ animationDelay: "1s" }} />
       </div>
@@ -82,7 +74,6 @@ export function HeroSection() {
               transition={{ delay: 0.1, duration: 0.4 }}
               className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm border border-white/20"
             >
-              <CurrentIcon className="h-4 w-4" />
               <span>{slides[currentSlide].subtitle}</span>
             </motion.div>
 
